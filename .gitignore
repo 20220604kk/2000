@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+.env.*
+*.log
+records/
+private/
+*.mp4
+*.mov
+*.mp3
+*.psd

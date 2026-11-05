@@ -1,0 +1,4 @@
+interface:
+  display_name: "/2000"
+  short_description: "整合兩千內容製作、四平台排播與馬尾開發審查，共十三項工作流程"
+  default_prompt: "使用 $2000，列出兩千與馬尾的可用功能，並執行我指定的流程。"
