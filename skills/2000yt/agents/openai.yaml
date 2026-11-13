@@ -1,0 +1,4 @@
+interface:
+  display_name: "/2000yt"
+  short_description: "兩千 YouTube 標題、品牌封面製作、開場腳本、SEO 與頻道診斷流程"
+  default_prompt: "使用 $2000yt，依我提供的影片主題設計繁體中文標題與縮圖文案。"

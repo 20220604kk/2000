@@ -1,13 +1,14 @@
 # /2000
 
-兩千／2000CAR 的內容製作與精簡開發技能，整合成一個可安裝的 Codex skill，內含 13 項工作流程。
+兩千／2000CAR 的內容製作與精簡開發技能，整合 14 項主流程；YouTube 優化另含 12 個子流程。提供 `2000` 統一入口與 `2000yt` YouTube 快捷入口。
 
 ## 使用
 
-Codex 的明確技能調用是 `$2000`；本包顯示名稱為 `/2000`，也辨認對話中輸入的 `/2000 reels`、`/2000` 等文字。沒有安裝額外原生 slash command。
+Codex 的明確技能調用是 `$2000` 或 `$2000yt`；本包顯示名稱為 `/2000`，也辨認對話中輸入的 `/2000 reels`、`/2000` 等文字。沒有安裝額外原生 slash command。
 
 | 調用 | 功能 | 用意 |
 | --- | --- | --- |
+| `/2000 yt`／`/2000yt` | YouTube 優化 | 標題、品牌封面、腳本、SEO、熱門研究與頻道分析，詳見下表。 |
 | `/2000 blog` | 影片轉官網草稿 | 把已確認的 YouTube 影片整理成含圖片、逐字稿與 SEO 的官網文章草稿。 |
 | `/2000 shorts` | Podcast 短影音剪輯 | 從 Podcast 長片挑選精彩對話，剪成符合品牌版型的直式短影音。 |
 | `/2000 cargogo` | 汽車介紹研究稿 | 查證車款規格、行情與競品，整理成主持人拍片時可直接使用的文稿。 |
@@ -24,15 +25,43 @@ Codex 的明確技能調用是 `$2000`；本包顯示名稱為 `/2000`，也辨�
 
 `/2000` 預設啟用精簡開發；`/2000 lite|full|ultra` 切換模式，`/2000 off` 停用。`/2000 說明` 顯示功能選單。
 
+## YouTube 的 12 個子流程
+
+`/2000yt` 與 `/2000 yt` 為相同入口。已有主題或原標題、未指定子功能時，預設產出標題與縮圖文案配對。
+
+| 調用 | 功能 |
+| --- | --- |
+| `/2000yt 封面` | 品牌封面文案、版型、製作與檢查；包含 22 張參考封面與製作標準。 |
+| `/2000yt 標題` | 標題與縮圖文案配對、候選比較。 |
+| `/2000yt 腳本` | 開場設計與完整口播腳本。 |
+| `/2000yt SEO` | 說明欄、標籤與搜尋意圖。 |
+| `/2000yt 熱門研究` | 依各頻道自身表現基準找出突出的影片。 |
+| `/2000yt 頻道健檢` | 頻道診斷與優先改善項目。 |
+| `/2000yt 留存` | 分析留存匯出資料與流失時間點。 |
+| `/2000yt 章節` | 從逐字稿產生並檢查時間戳章節。 |
+| `/2000yt 短片選段` | 從長片逐字稿挑出可獨立成立的短片段落。 |
+| `/2000yt 剪輯清單` | 產生帶時間碼的刪剪建議。 |
+| `/2000yt 內容規劃` | 依產能安排長片與短片題目。 |
+| `/2000yt 留言` | 分類留言並草擬符合口吻的回覆。 |
+
+短片選段提供建議，實際剪輯使用 `/2000 shorts`；已有成品要上架或排播使用 `/2000 reels`。所有評分只作編輯參考，不是 CTR 或流量預測；不會自動發布影片或回覆留言。
+
 ## 安裝
 
-將本儲存庫 `skills/2000` 整個資料夾複製到自己的 Codex 技能目錄，例如 `~/.agents/skills/2000`。保留 workflows、references、scripts 子目錄；只複製 SKILL.md 會遺失完整流程。
+將本儲存庫 `skills/2000` 與 `skills/2000yt` 兩個完整資料夾複製到同一個 Codex 技能目錄，例如 `~/.agents/skills/`。`2000yt` 會引用相鄰的 `2000`，不能單獨安裝；只安裝 `2000` 仍可透過 `/2000 yt` 使用 YouTube 流程。保留所有子目錄與參考圖片，只複製 SKILL.md 會遺失完整流程。
 
-Windows PowerShell（先在本儲存庫目錄執行；目標已有 2000 時先備份，不直接覆寫）：
+Windows PowerShell（先在本儲存庫目錄執行；目標已有 2000 或 2000yt 時先備份，不直接覆寫）：
 
 ```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE/.agents/skills" | Out-Null
-Copy-Item -Recurse ./skills/2000 "$env:USERPROFILE/.agents/skills/2000"
+$skillRoot = Join-Path $env:USERPROFILE '.agents/skills'
+foreach ($skillName in @('2000', '2000yt')) {
+    if (Test-Path -LiteralPath (Join-Path $skillRoot $skillName)) {
+        throw "$skillName 已存在，請先備份並移出舊版，再安裝。"
+    }
+}
+New-Item -ItemType Directory -Force $skillRoot | Out-Null
+Copy-Item -Recurse -LiteralPath './skills/2000' -Destination $skillRoot
+Copy-Item -Recurse -LiteralPath './skills/2000yt' -Destination $skillRoot
 ```
 
 安裝後重新開啟技能清單；若尚未出現，重啟 Codex。既有的 2000reels、2000podcast 等名稱在統一入口中仍可辨認。避免同時安裝相同流程的多份版本。
@@ -46,3 +75,5 @@ Reels 使用三個網站、四個發布端點：TikTok、YouTube Shorts、Facebo
 ## 來源與 MIT 授權
 
 開發與審查流程改編自 [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)，保留原作者的 [MIT 授權全文](THIRD_PARTY_LICENSES/upstream-MIT.txt)。本包將流程整合為 `/2000`，調整指令、目錄與操作說明。其餘 2000CAR 流程的公開不另授予品牌、影音或母版使用權；未另外聲明的內容保留權利。
+
+YouTube 原 11 個優化流程改編自 [Jakeschincariol/youtube-agent-skill](https://github.com/Jakeschincariol/youtube-agent-skill)，版本 `a2feb2104981a375ffd4f87ee04f4f5344ac43c6`，保留其 [MIT 授權全文](THIRD_PARTY_LICENSES/youtube-agent-skill-MIT.txt)。另加兩千品牌封面製作流程；22 張封面供品牌視覺參考，未另授予圖片、肖像或商標的使用權。
